@@ -131,3 +131,30 @@ jobs:
         with:
           name: Maryn-Launcher-Mac
           path: Maryn-Launcher-Mac.dmg
+
+
+
+
+  publish-release:
+    needs: [build-linux, build-windows, build-mac]
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Unzip Windows build
+        run: |
+          cd artifacts/Maryn-Launcher-Windows
+          unzip -o Maryn-Launcher-Windows.zip -d unzipped
+          rm Maryn-Launcher-Windows.zip
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            artifacts/Maryn-Launcher-Linux/*.AppImage
+            artifacts/Maryn-Launcher-Windows/unzipped/**
+            artifacts/Maryn-Launcher-Mac/*.dmg
