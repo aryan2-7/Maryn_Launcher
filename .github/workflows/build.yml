@@ -147,12 +147,6 @@ jobs:
         with:
           path: artifacts
 
-      - name: Unzip Windows build
-        run: |
-          cd artifacts/Maryn-Launcher-Windows
-          unzip -o Maryn-Launcher-Windows.zip -d unzipped
-          rm Maryn-Launcher-Windows.zip
-
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
         with:
@@ -161,5 +155,5 @@ jobs:
           prerelease: true
           files: |
             artifacts/Maryn-Launcher-Linux/*.AppImage
-            artifacts/Maryn-Launcher-Windows/unzipped/**
+            artifacts/Maryn-Launcher-Windows/*.zip
             artifacts/Maryn-Launcher-Mac/*.dmg
